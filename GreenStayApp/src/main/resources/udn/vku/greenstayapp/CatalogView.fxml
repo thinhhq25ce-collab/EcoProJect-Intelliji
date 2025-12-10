@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="udn.vku.greenstayapp.presentation.controller.CatalogController"
+      spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+
+    <Label text="GreenStay - Homestay Catalog" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10">
+        <Button text="Show All" onAction="#handleShowAll"/>
+        <Button text="Show Eco-Friendly Only" onAction="#handleShowEco"/>
+    </HBox>
+
+    <TableView fx:id="tableHomestay">
+        <columns>
+            <TableColumn text="ID" fx:id="colId" prefWidth="50"/>
+            <TableColumn text="Name" fx:id="colName" prefWidth="150"/>
+            <TableColumn text="Address" fx:id="colAddress" prefWidth="100"/>
+            <TableColumn text="Price" fx:id="colPrice" prefWidth="80"/>
+            <TableColumn text="Eco Certified" fx:id="colEco" prefWidth="100"/>
+        </columns>
+    </TableView>
+</VBox>
