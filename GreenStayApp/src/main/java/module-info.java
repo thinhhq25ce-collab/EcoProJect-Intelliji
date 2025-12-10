@@ -6,3 +6,4 @@ module udn.vku.greenstayapp {
     opens udn.vku.greenstayapp to javafx.fxml;
     exports udn.vku.greenstayapp;
 }
+//siconcac
