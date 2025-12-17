@@ -1,11 +1,15 @@
 package udn.vku.greenstayapp.dao;
 
 import udn.vku.greenstayapp.model.Homestay;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
+
+import static jdk.internal.org.jline.utils.Colors.h;
 
 public class HomestayDAO {
-    // Trong thực tế, bạn sẽ dùng Connection của JDBC để Query SQL ở đây
     private List<Homestay> mockDatabase = new ArrayList<>();
 
     public HomestayDAO() {
@@ -21,6 +25,35 @@ public class HomestayDAO {
 
     public void addHomestay(Homestay homestay) {
         mockDatabase.add(homestay);
+        String sql = "INSERT INTO Homestay (name, address, price, isEcoCertified) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, homestay.getName());
+            stmt.setString(2, homestay.getAddress());
+            stmt.setDouble(3, homestay.getPrice());
+            stmt.setBoolean(4, homestay.isEcoCertified());
+
+            stmt.executeUpdate(); // Lưu vào DB
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 3. Xóa Homestay (Để dùng cho nút Xóa)
+    public void deleteHomestay(int id) {
+        String sql = "DELETE FROM Homestay WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         // Code SQL: INSERT INTO Homestay...
     }
 }

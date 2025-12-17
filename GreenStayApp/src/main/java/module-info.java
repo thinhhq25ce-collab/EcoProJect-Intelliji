@@ -3,6 +3,7 @@ module udn.vku.greenstayapp {
     requires javafx.fxml;
     requires javafx.base;
     requires java.sql;
+    requires jdk.internal.le;
 
     opens udn.vku.greenstayapp.model to javafx.base;
     opens udn.vku.greenstayapp to javafx.fxml;

@@ -10,11 +10,10 @@ public class BookingService {
     }
 
     public boolean createBooking(String username, String roomName, String date) {
-        // Logic kiểm tra: nếu tên rỗng hoặc ngày rỗng thì không cho đặt
+
         if (username == null || roomName == null || date.isEmpty()) {
             return false;
         }
-
         bookingDAO.addBooking(username, roomName, date);
         return true;
     }

@@ -22,4 +22,7 @@ public class HomestayService {
                 .filter(Homestay::isEcoCertified)
                 .collect(Collectors.toList());
     }
+    public void addHomestay(Homestay h) {
+        homestayDAO.addHomestay(h);
+    }
 }

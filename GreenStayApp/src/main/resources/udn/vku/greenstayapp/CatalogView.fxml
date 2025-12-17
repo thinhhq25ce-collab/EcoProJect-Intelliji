@@ -8,9 +8,13 @@
 
     <Label text="GreenStay - Homestay Catalog" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-    <HBox spacing="10">
-        <Button text="Show All" onAction="#handleShowAll"/>
-        <Button text="Show Eco-Friendly Only" onAction="#handleShowEco"/>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="tfSearch" promptText="Tìm homestay..." />
+        <Button text="Tìm kiếm" onAction="#handleSearch"/>
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Button text="Đăng Xuất" onAction="#handleLogout" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
     </HBox>
 
     <TableView fx:id="tableHomestay">
@@ -20,6 +24,10 @@
             <TableColumn text="Address" fx:id="colAddress" prefWidth="100"/>
             <TableColumn text="Price" fx:id="colPrice" prefWidth="80"/>
             <TableColumn text="Eco Certified" fx:id="colEco" prefWidth="100"/>
+
+
+            <TableColumn fx:id="colAction" text="Hành động" prefWidth="100"/>
         </columns>
     </TableView>
+
 </VBox>

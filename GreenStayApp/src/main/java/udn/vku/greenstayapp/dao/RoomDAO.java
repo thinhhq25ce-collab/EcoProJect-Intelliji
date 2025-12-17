@@ -14,9 +14,17 @@ public class RoomDAO {
             this.isAvailable = isAvailable;
         }
 
-        public String getName() { return name; }
-        public double getPricePerNight() { return pricePerNight; }
-        public boolean isAvailable() { return isAvailable; }
+        public String getName() {
+            return name;
+        }
+
+        public double getPricePerNight() {
+            return pricePerNight;
+        }
+
+        public boolean isAvailable() {
+            return isAvailable;
+        }
 
         @Override
         public String toString() {
