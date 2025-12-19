@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="udn.vku.greenstayapp.presentation.controller.RegisterController"
+      style="-fx-background-color: #f0f2f5; -fx-padding: 30;">
+
+    <Label text="Đăng Ký Thành Viên" textFill="#2ecc71">
+        <font> <Font name="System Bold" size="22.0" /> </font>
+    </Label>
+
+    <VBox spacing="10" maxWidth="350" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+
+        <Label text="Họ và tên:" />
+        <TextField fx:id="tfFullName" promptText="Nguyễn Văn A" />
+
+        <Label text="Số điện thoại:" />
+        <TextField fx:id="tfPhone" promptText="0905xxxxxx" />
+
+        <Label text="Tên đăng nhập:" />
+        <TextField fx:id="tfUsername" promptText="Viết liền không dấu" />
+
+        <Label text="Mật khẩu:" />
+        <PasswordField fx:id="pfPassword" promptText="Nhập mật khẩu" />
+
+        <Label text="Nhập lại mật khẩu:" />
+        <PasswordField fx:id="pfConfirmPassword" promptText="Xác nhận mật khẩu" />
+
+        <Button text="Đăng Ký Ngay" maxWidth="Infinity" onAction="#handleRegister"
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+        <Hyperlink text="Đã có tài khoản? Đăng nhập" onAction="#handleBackToLogin" alignment="CENTER" maxWidth="Infinity"/>
+    </VBox>
+</VBox>
