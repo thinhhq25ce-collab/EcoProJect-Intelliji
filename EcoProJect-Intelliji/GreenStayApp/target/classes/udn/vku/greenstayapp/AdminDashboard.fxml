@@ -1,44 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<VBox spacing="10" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="udn.vku.greenstayapp.presentation.controller.AdminController"
-      style="-fx-padding: 20;">
+<BorderPane fx:id="mainLayout" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="udn.vku.greenstayapp.presentation.controller.AdminController"
+            stylesheets="@style.css" prefWidth="1200" prefHeight="750">
 
-    <Label text="QUẢN LÝ HOMESTAY (ADMIN)" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <left>
+        <VBox styleClass="sidebar" prefWidth="240" spacing="5" style="-fx-background-color: #2c3e50;">
+            <VBox alignment="CENTER" style="-fx-padding: 30 0 30 0;">
+                <Label text="GreenStay" textFill="#2ecc71">
+                    <font><Font name="System Bold" size="28.0"/></font>
+                </Label>
+                <Label text="ADMINISTRATOR" textFill="#95a5a6">
+                    <font><Font size="12.0"/></font>
+                </Label>
+            </VBox>
 
-    <GridPane hgap="10" vgap="10" alignment="CENTER">
-        <Label text="Tên Homestay:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="tfName" promptText="Nhập tên..." GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Button fx:id="btnHomestay" text="🏠  Quản lý Homestay" onAction="#showHomestayManager" maxWidth="Infinity" styleClass="sidebar-btn" />
+            <Button fx:id="btnBooking" text="📅  Quản lý Đặt phòng" onAction="#showBookingManager" maxWidth="Infinity" styleClass="sidebar-btn" />
+            <Button fx:id="btnUser" text="👤  Quản lý Người dùng" onAction="#showUserManager" maxWidth="Infinity" styleClass="sidebar-btn" />
+            <Button fx:id="btnRevenue" text="📊  Thống kê doanh thu" onAction="#showRevenueStats" maxWidth="Infinity" styleClass="sidebar-btn" />
 
-        <Label text="Địa chỉ:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="tfAddress" promptText="Nhập địa chỉ..." GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Region VBox.vgrow="ALWAYS" />
 
-        <Label text="Giá (VND):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="tfPrice" promptText="Nhập giá tiền..." GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Button text="⬅  Đăng xuất" onAction="#handleLogout" maxWidth="Infinity" styleClass="sidebar-btn" style="-fx-text-fill: #e74c3c; -fx-font-weight: bold;"/>
+        </VBox>
+    </left>
 
-        <Label text="Chứng chỉ xanh:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <CheckBox fx:id="cbEco" text="Đạt chuẩn Eco" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-    </GridPane>
+    <center>
+        <VBox spacing="20" style="-fx-padding: 30; -fx-background-color: #f4f7f6;">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <VBox>
+                    <Label text="Quản Lý Homestay" styleClass="title-label"/>
+                    <Label text="Thêm, sửa, xóa thông tin phòng và giá cả" textFill="#7f8c8d"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="↻ Tải lại dữ liệu" onAction="#handleRefresh" styleClass="button-secondary"/>
+            </HBox>
 
-    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
-        <Button text="Thêm Mới" onAction="#handleAdd" style="-fx-background-color: #2ecc71; -fx-text-fill: white;"/>
-        <Button text="Xóa Chọn" onAction="#handleDelete" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
-        <Button text="Làm Mới" onAction="#handleRefresh" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+            <HBox spacing="20" styleClass="card" alignment="CENTER_LEFT">
+                <GridPane hgap="15" vgap="15" HBox.hgrow="ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="60.0" />
+                    </columnConstraints>
 
-        <Button text="Đăng Xuất" onAction="#handleLogout" style="-fx-background-color: #7f8c8d; -fx-text-fill: white;"/>
-    </HBox>
+                    <TextField fx:id="tfName" promptText="Nhập tên Homestay..." GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+                    <TextField fx:id="tfAddress" promptText="Địa chỉ" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="tfPrice" promptText="Giá tiền (VNĐ)" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <CheckBox fx:id="cbEco" text="Đạt chuẩn Eco" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill: #27ae60;"/>
+                </GridPane>
 
-    <TableView fx:id="tableHomestay" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
-            <TableColumn fx:id="colName" text="Tên Homestay" prefWidth="200"/>
-            <TableColumn fx:id="colAddress" text="Địa chỉ" prefWidth="150"/>
-            <TableColumn fx:id="colPrice" text="Giá tiền" prefWidth="100"/>
-            <TableColumn fx:id="colEco" text="Eco" prefWidth="80"/>
-        </columns>
-    </TableView>
-</VBox>
+                <Separator orientation="VERTICAL"/>
+
+                <VBox spacing="10" alignment="CENTER_RIGHT" minWidth="140">
+                    <Button text="+ Thêm Mới" onAction="#handleAdd" styleClass="button-primary" maxWidth="Infinity"/>
+                    <Button text="✎ Cập Nhật" onAction="#handleUpdate" styleClass="button-secondary" maxWidth="Infinity" style="-fx-text-fill: #2980b9;"/>
+                    <Button text="✕ Xóa Chọn" onAction="#handleDelete" styleClass="button-danger" maxWidth="Infinity"/>
+                    <Button text="⟲ Nhập mới" onAction="#handleClear" style="-fx-background-color: transparent; -fx-text-fill: #7f8c8d; -fx-cursor: hand; -fx-underline: true;" maxWidth="Infinity"/>
+                </VBox>
+            </HBox>
+
+            <TableView fx:id="tableHomestay" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colID" text="ID" prefWidth="50" style="-fx-alignment: CENTER;"/>
+                    <TableColumn fx:id="colName" text="Tên Homestay" prefWidth="250"/>
+                    <TableColumn fx:id="colAddress" text="Địa điểm" prefWidth="200"/>
+                    <TableColumn fx:id="colPrice" text="Giá/Đêm" prefWidth="150" style="-fx-alignment: CENTER-RIGHT; -fx-font-weight: bold;"/>
+                    <TableColumn fx:id="colEco" text="Chứng chỉ Eco" prefWidth="120" style="-fx-alignment: CENTER;"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <placeholder>
+                    <Label text="Chưa có dữ liệu homestay nào" textFill="#bdc3c7"/>
+                </placeholder>
+            </TableView>
+        </VBox>
+    </center>
+
+</BorderPane>

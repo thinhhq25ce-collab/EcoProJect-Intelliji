@@ -3,7 +3,6 @@ package udn.vku.greenstayapp.service;
 import udn.vku.greenstayapp.dao.HomestayDAO;
 import udn.vku.greenstayapp.model.Homestay;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomestayService {
     private HomestayDAO homestayDAO;
@@ -16,12 +15,18 @@ public class HomestayService {
         return homestayDAO.getAllHomestays();
     }
 
-    public List<Homestay> getEcoFriendlyHomestays() {
-        return homestayDAO.getAllHomestays().stream()
-                .filter(Homestay::isEcoCertified)
-                .collect(Collectors.toList());
+    public boolean addHomestay(Homestay h) {
+        if (h.getName().isEmpty() || h.getPrice() < 0) return false;
+        return homestayDAO.addHomestay(h);
     }
-    public void addHomestay(Homestay h) {
-        homestayDAO.addHomestay(h);
+
+    // --- MỚI ---
+    public boolean updateHomestay(Homestay h) {
+        if (h.getId() == 0 || h.getName().isEmpty()) return false;
+        return homestayDAO.updateHomestay(h);
+    }
+
+    public boolean deleteHomestay(int id) {
+        return homestayDAO.deleteHomestay(id);
     }
 }

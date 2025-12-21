@@ -1,141 +1,127 @@
 package udn.vku.greenstayapp.presentation.controller;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import udn.vku.greenstayapp.model.Homestay;
+import udn.vku.greenstayapp.model.Room;
+import udn.vku.greenstayapp.model.User;
 import udn.vku.greenstayapp.service.HomestayService;
-import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.Button;
-import javafx.util.Callback;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class CatalogController {
 
     @FXML private TableView<Homestay> tableHomestay;
-    @FXML private TableColumn<Homestay, Integer> colId;
     @FXML private TableColumn<Homestay, String> colName;
     @FXML private TableColumn<Homestay, String> colAddress;
     @FXML private TableColumn<Homestay, Double> colPrice;
     @FXML private TableColumn<Homestay, Boolean> colEco;
-    @FXML private TextField tfSearch;
-    @FXML private TableColumn<Homestay, Void> colAction;
+    @FXML private Label lbWelcome;
 
-
-    private HomestayService service;
-
+    private HomestayService homestayService;
+    private User currentUser;
 
     public void initialize() {
-        service = new HomestayService();
+        homestayService = new HomestayService();
+        setupTable();
+        loadData();
+    }
 
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        if (user != null) {
+            lbWelcome.setText("Xin chào, " + user.getFullName() + "!");
+        }
+    }
+
+    private void setupTable() {
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        colEco.setCellValueFactory(new PropertyValueFactory<>("ecoCertified"));
-        addButtonToTable();
 
-        loadData(service.getAllHomestays());
-    }
-
-    private void addButtonToTable() {
-        Callback<TableColumn<Homestay, Void>, TableCell<Homestay, Void>> cellFactory = new Callback<>() {
+        // Format cột Eco (True -> "Có", False -> "Không")
+        colEco.setCellValueFactory(new PropertyValueFactory<>("isEcoCertified"));
+        colEco.setCellFactory(column -> new TableCell<>() {
             @Override
-            public TableCell<Homestay, Void> call(final TableColumn<Homestay, Void> param) {
-                final TableCell<Homestay, Void> cell = new TableCell<>() {
-                    private final Button btn = new Button("Đặt ngay");
-
-                    {
-                        btn.setOnAction((event) -> {
-                            Homestay data = getTableView().getItems().get(getIndex());
-                            openBookingForm(data); // Hàm mở form đặt phòng
-                        });
-                        btn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item ? "🌿 Đạt chuẩn" : "");
+                    setStyle(item ? "-fx-text-fill: #27ae60; -fx-font-weight: bold;" : "");
+                }
             }
-        };
-
-        colAction.setCellFactory(cellFactory);
+        });
     }
 
-    private void openBookingForm(Homestay selectedHomestay) {
-        try {
+    private void loadData() {
+        tableHomestay.setItems(FXCollections.observableArrayList(homestayService.getAllHomestays()));
+    }
 
-            System.out.println("Đang đặt phòng tại: " + selectedHomestay.getName());
+    @FXML
+    public void handleBook() {
+        Homestay selected = tableHomestay.getSelectionModel().getSelectedItem();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (selected == null) {
+            showAlert("Chưa chọn phòng", "Vui lòng chọn một Homestay trong bảng để đặt!");
+            return;
         }
+
+        // Chuyển đổi Homestay sang Room để khớp với form đặt phòng
+        Room tempRoom = new Room(selected.getId(), selected.getName(), "Standard", selected.getPrice(), true);
+        openBookingForm(tempRoom);
     }
 
-    @FXML
-    public void handleSearch() {
-        String keyword = tfSearch.getText().toLowerCase();
-
-        List<Homestay> allList = service.getAllHomestays();
-
-        List<Homestay> filteredList = allList.stream()
-                .filter(h -> h.getName().toLowerCase().contains(keyword) ||
-                        h.getAddress().toLowerCase().contains(keyword))
-                .collect(Collectors.toList());
-
-        ObservableList<Homestay> data = FXCollections.observableArrayList(filteredList);
-        tableHomestay.setItems(data);
-    }
-
-    @FXML
-    private void handleShowAll() {
-        loadData(service.getAllHomestays());
-    }
-
-    @FXML
-    private void handleShowEco() {
-        loadData(service.getEcoFriendlyHomestays());
-    }
-
-    private void loadData(java.util.List<Homestay> list) {
-        ObservableList<Homestay> data = FXCollections.observableArrayList(list);
-        tableHomestay.setItems(data);
-    }
-    public void handleLogout() {
+    private void openBookingForm(Room room) {
         try {
-            Stage currentStage = (Stage) tableHomestay.getScene().getWindow();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/udn/vku/greenstayapp/LoginView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/udn/vku/greenstayapp/BookingForm.fxml"));
             Parent root = loader.load();
 
-            Scene scene = new Scene(root);
-            currentStage.setScene(scene);
-            currentStage.setTitle("GreenStay - Đăng nhập");
-            currentStage.centerOnScreen();
+            BookingController controller = loader.getController();
+            controller.setBookingData(currentUser, room);
+
+            // Xử lý sau khi đặt thành công (Load lại bảng hoặc thông báo)
+            controller.setOnSuccess(() -> {
+                // Có thể disable dòng vừa chọn hoặc refresh lại nếu muốn
+                // Ở đây mình refresh lại bảng để cập nhật trạng thái nếu cần
+                tableHomestay.refresh();
+            });
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setTitle("Đặt phòng: " + room.getName());
+            stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Lỗi", "Không thể mở form đặt phòng: " + e.getMessage());
         }
     }
 
+    @FXML
+    public void handleLogout() {
+        try {
+            Stage stage = (Stage) tableHomestay.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/udn/vku/greenstayapp/LoginView.fxml"));
+            stage.setScene(new Scene(loader.load()));
+            stage.centerOnScreen();
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

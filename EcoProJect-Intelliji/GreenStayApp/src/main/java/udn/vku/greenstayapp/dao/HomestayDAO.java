@@ -9,80 +9,55 @@ public class HomestayDAO {
 
     public List<Homestay> getAllHomestays() {
         List<Homestay> list = new ArrayList<>();
-        String sql = "SELECT * FROM Homestay";
-
+        String sql = "SELECT * FROM homestay";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                Homestay h = new Homestay(
+                // Thứ tự tham số khớp với Model mới: double price, boolean isEco
+                list.add(new Homestay(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("address"),
                         rs.getDouble("price"),
-                        rs.getBoolean("isEcoCertified")
-                );
-                list.add(h);
+                        rs.getBoolean("is_eco") // Đảm bảo tên cột trong DB đúng
+                ));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (SQLException e) { e.printStackTrace(); }
         return list;
     }
 
-
     public boolean addHomestay(Homestay h) {
-        String sql = "INSERT INTO Homestay (name, address, price, isEcoCertified) VALUES (?, ?, ?, ?)";
-
+        String sql = "INSERT INTO homestay (name, address, price, is_eco) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, h.getName());
             stmt.setString(2, h.getAddress());
             stmt.setDouble(3, h.getPrice());
-            stmt.setBoolean(4, h.isEcoCertified());
+            stmt.setBoolean(4, h.getIsEcoCertified());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) { e.printStackTrace(); return false; }
+    }
 
-            int row = stmt.executeUpdate();
-            return row > 0;
-
-        } catch (Exception e) {
-            System.out.println("Lỗi Thêm: " + e.getMessage());
-            return false;
-        }
+    public boolean updateHomestay(Homestay h) {
+        String sql = "UPDATE homestay SET name=?, address=?, price=?, is_eco=? WHERE id=?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, h.getName());
+            stmt.setString(2, h.getAddress());
+            stmt.setDouble(3, h.getPrice());
+            stmt.setBoolean(4, h.getIsEcoCertified());
+            stmt.setInt(5, h.getId());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) { e.printStackTrace(); return false; }
     }
 
     public boolean deleteHomestay(int id) {
-        String sql = "DELETE FROM Homestay WHERE id = ?";
+        String sql = "DELETE FROM homestay WHERE id=?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public void updateHomestay(Homestay h) {
-        String sql = "UPDATE homestay SET name = ?, address = ?, price = ?, isEcoCertified = ? WHERE id = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, h.getName());
-            pstmt.setString(2, h.getAddress());
-            pstmt.setDouble(3, h.getPrice());
-            pstmt.setBoolean(4, h.isEcoCertified());
-            pstmt.setInt(5, h.getId());
-
-            int rowsAffected = pstmt.executeUpdate();
-            if (rowsAffected == 0) {
-                System.out.println("!!! Warning: No homestay found with ID " + h.getId());
-            }
-        } catch (SQLException e) {
-            System.out.println("Update Error: " + e.getMessage());
-        }
+        } catch (SQLException e) { e.printStackTrace(); return false; }
     }
 }

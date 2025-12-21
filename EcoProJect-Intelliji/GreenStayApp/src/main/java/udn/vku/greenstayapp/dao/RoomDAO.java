@@ -1,34 +1,35 @@
 package udn.vku.greenstayapp.dao;
 
+import udn.vku.greenstayapp.model.Room;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class RoomDAO {
-    public class Room {
-        private int id;
-        private String name;
-        private double pricePerNight;
-        private boolean isAvailable;
 
-        public Room(int id, String name, double pricePerNight, boolean isAvailable) {
-            this.id = id;
-            this.name = name;
-            this.pricePerNight = pricePerNight;
-            this.isAvailable = isAvailable;
-        }
+    // Lấy danh sách phòng theo ID Homestay
+    public List<Room> getRoomsByHomestay(int homestayId) {
+        List<Room> list = new ArrayList<>();
+        String sql = "SELECT * FROM room WHERE homestay_id = ?";
 
-        public String getName() {
-            return name;
-        }
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        public double getPricePerNight() {
-            return pricePerNight;
-        }
+            stmt.setInt(1, homestayId);
+            ResultSet rs = stmt.executeQuery();
 
-        public boolean isAvailable() {
-            return isAvailable;
+            while (rs.next()) {
+                list.add(new Room(
+                        rs.getInt("id"),
+                        rs.getString("homestay_id"),
+                        rs.getString("name"), // Lưu ý: Trong DB có thể cột name là int hoặc varchar, check lại
+                        rs.getDouble("pricePerNight"),
+                        rs.getBoolean("isAvailable")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        @Override
-        public String toString() {
-            return name + " - " + pricePerNight + " VND";
-        }
+        return list;
     }
 }
