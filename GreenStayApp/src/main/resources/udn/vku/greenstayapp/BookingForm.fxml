@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="udn.vku.greenstayapp.presentation.controller.BookingController"
+      stylesheets="@style.css" spacing="20" style="-fx-padding: 30; -fx-background-color: white;" prefWidth="400">
+
+    <Label text="XÁC NHẬN ĐẶT PHÒNG" textFill="#2ecc71">
+        <font><Font name="System Bold" size="18.0"/></font>
+    </Label>
+
+    <VBox spacing="5" style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 8;">
+        <Label fx:id="lbRoomName" text="Homestay Name" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+        <Label fx:id="lbPricePerNight" text="500,000 VNĐ/đêm" textFill="#7f8c8d"/>
+    </VBox>
+
+    <VBox spacing="15">
+        <VBox spacing="5">
+            <Label text="Ngày nhận phòng (Check-in):"/>
+            <DatePicker fx:id="dpCheckIn" promptText="Chọn ngày đến" maxWidth="Infinity"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Ngày trả phòng (Check-out):"/>
+            <DatePicker fx:id="dpCheckOut" promptText="Chọn ngày đi" maxWidth="Infinity"/>
+        </VBox>
+    </VBox>
+
+    <Label fx:id="lbTotalPrice" text="Tổng cộng: 0 VNĐ" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" alignment="CENTER_RIGHT" maxWidth="Infinity"/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Hủy bỏ" onAction="#handleCancel" styleClass="button-secondary"/>
+        <Button text="Xác nhận Đặt" onAction="#handleConfirmBooking" styleClass="button-primary"/>
+    </HBox>
+
+</VBox>

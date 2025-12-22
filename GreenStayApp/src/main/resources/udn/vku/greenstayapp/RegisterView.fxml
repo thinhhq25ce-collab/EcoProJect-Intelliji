@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="udn.vku.greenstayapp.presentation.controller.RegisterController"
+           stylesheets="@style.css" prefWidth="800" prefHeight="600"
+           style="-fx-background-color: linear-gradient(to bottom right, #27ae60, #2ecc71);">
+
+    <VBox spacing="20" alignment="CENTER" maxWidth="450" maxHeight="550" styleClass="card" style="-fx-padding: 40; -fx-background-radius: 15;">
+
+        <Label text="Tạo Tài Khoản Mới" textFill="#27ae60">
+            <font><Font name="System Bold" size="26.0"/></font>
+        </Label>
+
+        <Label text="Tham gia cùng GreenStay ngay hôm nay" textFill="#7f8c8d"/>
+
+        <VBox spacing="15" alignment="CENTER_LEFT">
+            <VBox spacing="5">
+                <Label text="Họ và Tên" style="-fx-font-weight: bold;"/>
+                <TextField fx:id="tfFullName" promptText="Nguyễn Văn A" />
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Số điện thoại" style="-fx-font-weight: bold;"/>
+                <TextField fx:id="tfPhone" promptText="0905xxxxxx" />
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Tên đăng nhập" style="-fx-font-weight: bold;"/>
+                <TextField fx:id="tfUsername" promptText="username123" />
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Mật khẩu" style="-fx-font-weight: bold;"/>
+                <PasswordField fx:id="pfPassword" promptText="Ít nhất 6 ký tự" />
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Nhập lại mật khẩu" style="-fx-font-weight: bold;"/>
+                <PasswordField fx:id="pfConfirmPass" promptText="Xác nhận mật khẩu" />
+            </VBox>
+        </VBox>
+
+        <Button text="ĐĂNG KÝ NGAY" onAction="#handleRegister" styleClass="button-primary" maxWidth="Infinity" style="-fx-font-size: 14px; -fx-padding: 10;"/>
+
+        <HBox alignment="CENTER" spacing="5">
+            <Label text="Đã có tài khoản?" textFill="#7f8c8d"/>
+            <Hyperlink text="Đăng nhập tại đây" onAction="#handleBackToLogin" textFill="#27ae60" style="-fx-font-weight: bold;"/>
+        </HBox>
+    </VBox>
+
+</StackPane>

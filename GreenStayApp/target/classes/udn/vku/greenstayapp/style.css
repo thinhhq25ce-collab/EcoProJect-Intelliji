@@ -1,0 +1,47 @@
+/* --- CẤU HÌNH CHUNG --- */
+.root {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14px;
+}
+
+/* --- BUTTON MENU SIDEBAR (TRẠNG THÁI THƯỜNG) --- */
+.sidebar-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ecf0f1; /* Màu chữ trắng xám */
+    -fx-alignment: BASELINE_LEFT;
+    -fx-font-size: 14px;
+    -fx-padding: 15 20 15 20; /* Trên Phải Dưới Trái */
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 4; /* Viền trái ẩn */
+    -fx-transition: all 0.2s;
+}
+
+.sidebar-btn:hover {
+    -fx-background-color: #34495e; /* Màu nền khi di chuột */
+    -fx-padding: 15 15 15 25;      /* Hiệu ứng chữ chạy sang phải */
+}
+
+/* --- BUTTON MENU SIDEBAR (TRẠNG THÁI ĐANG CHỌN - ACTIVE) --- */
+/* Class này sẽ được thêm vào bằng Java */
+.sidebar-btn-active {
+    -fx-background-color: #253342; /* Nền tối hơn (Deep Blue) */
+    -fx-text-fill: #2ecc71;        /* Chữ màu xanh lá nổi bật */
+    -fx-font-weight: bold;
+
+    /* Hiệu ứng lún xuống (Bóng đổ vào trong) */
+    -fx-effect: inner-shadow(three-pass-box, rgba(0,0,0,0.5), 5, 0, 0, 2);
+
+    /* Viền xanh sáng bên trái để đánh dấu */
+    -fx-border-color: transparent transparent transparent #2ecc71;
+    -fx-border-width: 0 0 0 4;
+
+    /* Giữ nguyên vị trí chữ đã đẩy sang phải */
+    -fx-padding: 15 15 15 25;
+}
+
+/* --- CÁC STYLE KHÁC (Giữ nguyên cho đẹp) --- */
+.title-label { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50; }
+.card { -fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-padding: 20 20 20 20; }
+.button-primary { -fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15 8 15; -fx-cursor: hand; }
+.button-danger { -fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15 8 15; -fx-cursor: hand; }
