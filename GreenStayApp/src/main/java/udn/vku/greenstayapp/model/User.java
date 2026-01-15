@@ -12,7 +12,9 @@ public class User {
     private String employeeCode;
     private String department;
 
-    public User() { }
+    public User() {
+
+    }
 
     public User(int id, String username, String password, String role, String fullName, String phoneNumber, String email, String address, String employeeCode, String department) {
         this.id = id;

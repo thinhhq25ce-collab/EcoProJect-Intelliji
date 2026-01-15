@@ -12,7 +12,6 @@ public class RoomService {
         this.roomDAO = new RoomDAO();
     }
 
-    // Lấy tất cả phòng của một Homestay
     public List<Room> getRoomsByHomestayId(int homestayId) {
         return roomDAO.getRoomsByHomestay(homestayId);
     }

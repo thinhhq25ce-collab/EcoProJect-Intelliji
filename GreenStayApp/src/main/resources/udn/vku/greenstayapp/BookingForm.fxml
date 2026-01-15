@@ -7,6 +7,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.GridPane?>
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="udn.vku.greenstayapp.presentation.controller.BookingController"
       stylesheets="@style.css" spacing="20" style="-fx-padding: 30; -fx-background-color: white;" prefWidth="400">
@@ -38,5 +40,23 @@
         <Button text="Hủy bỏ" onAction="#handleCancel" styleClass="button-secondary"/>
         <Button text="Xác nhận Đặt" onAction="#handleConfirmBooking" styleClass="button-primary"/>
     </HBox>
+    <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #f1f2f6; -fx-background-radius: 8;">
+        <Label text="Trạng thái phòng (7 ngày tới):" style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
+
+        <GridPane fx:id="gridAvailability" hgap="8" vgap="5" alignment="CENTER">
+        </GridPane>
+
+        <HBox spacing="15" alignment="CENTER">
+            <HBox spacing="5" alignment="CENTER">
+                <Region style="-fx-background-color: white; -fx-pref-width: 12; -fx-pref-height: 12; -fx-border-color: #ccc;"/>
+                <Label text="Trống" style="-fx-font-size: 11px;"/>
+            </HBox>
+            <HBox spacing="5" alignment="CENTER">
+                <Region style="-fx-background-color: #e74c3c; -fx-pref-width: 12; -fx-pref-height: 12;"/>
+                <Label text="Đã đặt" style="-fx-font-size: 11px;"/>
+            </HBox>
+        </HBox>
+    </VBox>
+
 
 </VBox>

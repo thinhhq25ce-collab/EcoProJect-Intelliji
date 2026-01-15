@@ -14,13 +14,12 @@ public class HomestayDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-
                 list.add(new Homestay(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("address"),
                         rs.getDouble("price"),
-                        rs.getBoolean("is_eco")
+                        rs.getBoolean("isEcoCertified")
                 ));
             }
         } catch (SQLException e) { e.printStackTrace(); }
@@ -28,7 +27,7 @@ public class HomestayDAO {
     }
 
     public boolean addHomestay(Homestay h) {
-        String sql = "INSERT INTO homestay (name, address, price, is_eco) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO homestay (name, address, price, isEcoCertified) VALUES (?, ?, ?, ?)"; // <--- SỬA TÊN CỘT
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, h.getName());
@@ -40,7 +39,7 @@ public class HomestayDAO {
     }
 
     public boolean updateHomestay(Homestay h) {
-        String sql = "UPDATE homestay SET name=?, address=?, price=?, is_eco=? WHERE id=?";
+        String sql = "UPDATE homestay SET name=?, address=?, price=?, isEcoCertified=? WHERE id=?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, h.getName());

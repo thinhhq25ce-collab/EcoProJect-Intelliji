@@ -59,7 +59,7 @@
                 <VBox spacing="10" alignment="CENTER_RIGHT" minWidth="140">
                     <Button text="+ Thêm Mới" onAction="#handleAdd" styleClass="button-primary" maxWidth="Infinity"/>
                     <Button text="✎ Cập Nhật" onAction="#handleUpdate" styleClass="button-secondary" maxWidth="Infinity" style="-fx-text-fill: #2980b9;"/>
-                    <Button text="✕ Xóa Chọn" onAction="#handleDelete" styleClass="button-danger" maxWidth="Infinity"/>
+                    <Button text="✕ Xóa" onAction="#handleDelete" styleClass="button-danger" maxWidth="Infinity"/>
                     <Button text="⟲ Nhập mới" onAction="#handleClear" style="-fx-background-color: transparent; -fx-text-fill: #7f8c8d; -fx-cursor: hand; -fx-underline: true;" maxWidth="Infinity"/>
                 </VBox>
             </HBox>

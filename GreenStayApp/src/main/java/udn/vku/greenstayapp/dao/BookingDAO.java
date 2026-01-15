@@ -72,4 +72,20 @@ public class BookingDAO {
         } catch (SQLException e) { e.printStackTrace(); }
         return revenueMap;
     }
+    public List<Booking> getBookingsByRoom(int roomId) {
+        List<Booking> list = new ArrayList<>();
+        String sql = "SELECT check_in, check_out FROM booking WHERE room_id = ? AND status != 'CANCELLED'";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, roomId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Booking b = new Booking();
+                b.setCheckIn(rs.getDate("check_in").toLocalDate());
+                b.setCheckOut(rs.getDate("check_out").toLocalDate());
+                list.add(b);
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return list;
+    }
 }

@@ -88,10 +88,7 @@ public class CatalogController {
             BookingController controller = loader.getController();
             controller.setBookingData(currentUser, room);
 
-            // Xử lý sau khi đặt thành công (Load lại bảng hoặc thông báo)
             controller.setOnSuccess(() -> {
-                // Có thể disable dòng vừa chọn hoặc refresh lại nếu muốn
-                // Ở đây mình refresh lại bảng để cập nhật trạng thái nếu cần
                 tableHomestay.refresh();
             });
 
